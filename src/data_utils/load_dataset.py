@@ -17,6 +17,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 from torchvision.datasets import CIFAR10, STL10
 from torchvision.datasets import ImageFolder
+from data_utils.our_datasets import FoodiMLDataset
 
 
 
@@ -66,6 +67,7 @@ class LoadDataset(Dataset):
         self.norm_std = [0.5,0.5,0.5]
 
         if self.hdf5_path is None:
+            print("self.hdf5_path is None")
             if self.dataset_name in ['cifar10', 'tiny_imagenet']:
                 self.transforms = []
             else:
@@ -81,7 +83,7 @@ class LoadDataset(Dataset):
 
         self.transforms += [transforms.ToTensor(), transforms.Normalize(self.norm_mean, self.norm_std)]
         self.transforms = transforms.Compose(self.transforms)
-
+        
         self.load_dataset()
 
 
@@ -97,7 +99,10 @@ class LoadDataset(Dataset):
             self.data = CIFAR10(root=self.data_path,
                                 train=self.train,
                                 download=self.download)
-
+            
+        elif self.dataset_name == 'foodi-ml':
+            self.data = FoodiMLDataset(dataset_path=self.data_path, train=self.train)
+            
         else:
             mode = 'train' if self.train == True else 'valid'
             root = os.path.join(self.data_path, mode)
@@ -113,9 +118,12 @@ class LoadDataset(Dataset):
 
 
     def __getitem__(self, index):
-        if self.hdf5_path is None:
-            img, label = self.data[index]
+        if self.hdf5_path is None and self.dataset_name != "foodi-ml":
+            img, label = self.data[index] # label in our case will be a caption
             img, label = self.transforms(img), int(label)
+        elif self.dataset_name == "foodi-ml":
+            img, embedding, label = self.data[index]
+            img = self.transforms(img)
         else:
             img, label = np.transpose(self.data[index], (1,2,0)), int(self.labels[index])
             img = self.transforms(img)
