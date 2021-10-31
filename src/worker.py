@@ -67,6 +67,7 @@ class make_worker(object):
         self.seed = cfgs.seed
         self.dataset_name = cfgs.dataset_name
         self.eval_type = cfgs.eval_type
+        print("self.eval_type at creation: ", self.eval_type)
         self.logger = logger
         self.writer = writer
         self.num_workers = cfgs.num_workers
@@ -559,7 +560,7 @@ class make_worker(object):
             self.dis_model.eval()
             generator = change_generator_mode(self.gen_model, self.Gen_copy, self.bn_stat_OnTheFly, standing_statistics, standing_step,
                                               self.prior, self.batch_size, self.z_dim, self.num_classes, self.local_rank, training=False, counter=self.counter)
-
+            print("self.eval_type: ", self.eval_type)
             fid_score, self.m1, self.s1 = calculate_fid_score(self.eval_dataloader, generator, self.dis_model, self.inception_model, self.num_eval[self.eval_type],
                                                               self.truncated_factor, self.prior, self.latent_op, self.latent_op_step4eval, self.latent_op_alpha,
                                                               self.latent_op_beta, self.local_rank, self.logger, self.mu, self.sigma, self.run_name)

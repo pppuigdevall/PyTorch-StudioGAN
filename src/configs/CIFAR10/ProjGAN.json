@@ -3,7 +3,7 @@
     "dataset_name": "foodi-ml",
     "data_path": "/home/ec2-user/SageMaker/dataset/spanish_subset/",
     "img_size": 32,
-    "num_classes": 10,
+    "num_classes": 2,
     "batch_size4prcsing": 256,
     "chunk_size": 500,
     "compression": false
@@ -51,7 +51,7 @@
       "beta2": 0.999,
       "g_steps_per_iter": 1,
       "d_steps_per_iter": 5,
-      "total_step": 100000
+      "total_step": 10000
     },
 
     "loss_function": {
