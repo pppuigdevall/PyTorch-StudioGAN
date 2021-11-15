@@ -122,7 +122,6 @@ class LoadDataset(Dataset):
             img, label = self.data[index] # label in our case will be a caption
             img, label = self.transforms(img), int(label)
         elif self.dataset_name == "foodi-ml":
-            # img, embedding, label = self.data[index]
             img, label = self.data[index]
             img = self.transforms(img)
         else:
