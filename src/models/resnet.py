@@ -77,7 +77,12 @@ class Generator(nn.Module):
     def __init__(self, z_dim, shared_dim, img_size, g_conv_dim, g_spectral_norm, attention, attention_after_nth_gen_block, activation_fn,
                  conditional_strategy, num_classes, initialize, G_depth, mixed_precision):
         super(Generator, self).__init__()
+        #print("initialize: ", initialize)
+        #print("mixed_precision: ", mixed_precision)
+        # g_conv_dim = 64
+                                        # 256,           256,        256
         g_in_dims_collection = {"32": [g_conv_dim*4, g_conv_dim*4, g_conv_dim*4],
+                                # 1024, 512, 256, 128
                                 "64": [g_conv_dim*16, g_conv_dim*8, g_conv_dim*4, g_conv_dim*2],
                                 "128": [g_conv_dim*16, g_conv_dim*16, g_conv_dim*8, g_conv_dim*4, g_conv_dim*2],
                                 "256": [g_conv_dim*16, g_conv_dim*16, g_conv_dim*8, g_conv_dim*8, g_conv_dim*4, g_conv_dim*2],
@@ -143,6 +148,8 @@ class Generator(nn.Module):
             init_weights(self.modules, initialize)
 
     def forward(self, z, label, evaluation=False):
+        #print("z size: ", z.size())
+        #print("label size: ", label.size())
         with torch.cuda.amp.autocast() if self.mixed_precision is True and evaluation is False else dummy_context_mgr() as mp:
             act = self.linear0(z)
             act = act.view(-1, self.in_dims[0], self.bottom, self.bottom)

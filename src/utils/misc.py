@@ -409,10 +409,10 @@ def change_generator_mode(gen, gen_copy, bn_stat_OnTheFly, standing_statistics, 
 def plot_img_canvas(images, save_path, nrow, logger, logging=True):
     if logger is None: logging = False
     directory = dirname(save_path)
-
+    
     if not exists(abspath(directory)):
         os.makedirs(directory)
-
+    
     save_image(images, save_path, padding=0, nrow=nrow)
     if logging: logger.info("Saved image to {}".format(save_path))
 
@@ -494,8 +494,10 @@ def plot_sim_heatmap(similarity, xlabels, ylabels, run_name, logger, logging=Tru
     if not exists(abspath(directory)):
         os.makedirs(directory)
 
+    curr_time = datetime.now()
+    curr_time_str = str(curr_time.day) + "_" + str(curr_time.hour) + "_" + str(curr_time.minute)
     save_path = join(directory, "sim_heatmap.png")
-
+    
     sns.set(style="white")
     fig, ax = plt.subplots(figsize=(18, 18))
     cmap = sns.diverging_palette(220, 20, as_cmap=True)

@@ -480,6 +480,7 @@ class make_worker(object):
     ################################################################################################################################
     def save(self, step, is_best):
         when = "best" if is_best is True else "current"
+        
         self.dis_model.eval()
         self.gen_model.eval()
         if self.Gen_copy is not None:
@@ -502,8 +503,9 @@ class make_worker(object):
                     'best_fid': self.best_fid, 'best_fid_checkpoint_path': self.checkpoint_dir}
 
         if len(glob.glob(join(self.checkpoint_dir,"model=G-{when}-weights-step*.pth".format(when=when)))) >= 1:
-            find_and_remove(glob.glob(join(self.checkpoint_dir,"model=G-{when}-weights-step*.pth".format(when=when)))[0])
-            find_and_remove(glob.glob(join(self.checkpoint_dir,"model=D-{when}-weights-step*.pth".format(when=when)))[0])
+            #find_and_remove(glob.glob(join(self.checkpoint_dir,"model=G-{when}-weights-step*.pth".format(when=when)))[0])
+            #find_and_remove(glob.glob(join(self.checkpoint_dir,"model=D-{when}-weights-step*.pth".format(when=when)))[0])
+            pass
 
         g_checkpoint_output_path = join(self.checkpoint_dir, "model=G-{when}-weights-step={step}.pth".format(when=when, step=str(step)))
         d_checkpoint_output_path = join(self.checkpoint_dir, "model=D-{when}-weights-step={step}.pth".format(when=when, step=str(step)))
@@ -513,8 +515,9 @@ class make_worker(object):
 
         if when == "best":
             if len(glob.glob(join(self.checkpoint_dir,"model=G-current-weights-step*.pth"))) >= 1:
-                find_and_remove(glob.glob(join(self.checkpoint_dir,"model=G-current-weights-step*.pth"))[0])
-                find_and_remove(glob.glob(join(self.checkpoint_dir,"model=D-current-weights-step*.pth"))[0])
+                #find_and_remove(glob.glob(join(self.checkpoint_dir,"model=G-current-weights-step*.pth"))[0])
+                #find_and_remove(glob.glob(join(self.checkpoint_dir,"model=D-current-weights-step*.pth"))[0])
+                pass
 
             g_checkpoint_output_path_ = join(self.checkpoint_dir, "model=G-current-weights-step={step}.pth".format(step=str(step)))
             d_checkpoint_output_path_ = join(self.checkpoint_dir, "model=D-current-weights-step={step}.pth".format(step=str(step)))
@@ -525,7 +528,8 @@ class make_worker(object):
         if self.Gen_copy is not None:
             g_ema_states = {'state_dict': gen_copy.state_dict()}
             if len(glob.glob(join(self.checkpoint_dir, "model=G_ema-{when}-weights-step*.pth".format(when=when)))) >= 1:
-                find_and_remove(glob.glob(join(self.checkpoint_dir, "model=G_ema-{when}-weights-step*.pth".format(when=when)))[0])
+                #find_and_remove(glob.glob(join(self.checkpoint_dir, "model=G_ema-{when}-weights-step*.pth".format(when=when)))[0])
+                pass
 
             g_ema_checkpoint_output_path = join(self.checkpoint_dir, "model=G_ema-{when}-weights-step={step}.pth".format(when=when, step=str(step)))
 
@@ -533,7 +537,8 @@ class make_worker(object):
 
             if when == "best":
                 if len(glob.glob(join(self.checkpoint_dir,"model=G_ema-current-weights-step*.pth".format(when=when)))) >= 1:
-                    find_and_remove(glob.glob(join(self.checkpoint_dir,"model=G_ema-current-weights-step*.pth".format(when=when)))[0])
+                    #find_and_remove(glob.glob(join(self.checkpoint_dir,"model=G_ema-current-weights-step*.pth".format(when=when)))[0])
+                    pass
 
                 g_ema_checkpoint_output_path_ = join(self.checkpoint_dir, "model=G_ema-current-weights-step={step}.pth".format(when=when, step=str(step)))
 
@@ -679,9 +684,10 @@ class make_worker(object):
                                         False, self.local_rank)
 
             generated_images = generator(zs, fake_labels, evaluation=True)
-
-            plot_img_canvas((generated_images.detach().cpu()+1)/2, "./figures/{run_name}/generated_canvas.png".\
-                            format(run_name=self.run_name), ncol, self.logger, logging=True)
+            curr_time = datetime.now()
+            curr_time_str = str(curr_time.day) + "_" + str(curr_time.hour) + "_" + str(curr_time.minute)
+            plot_img_canvas((generated_images.detach().cpu()+1)/2, "./figures/{run_name}/generated_canvas_{curr_time_str}.png".\
+                            format(run_name=self.run_name, curr_time_str=curr_time_str), ncol, self.logger, logging=True)
 
             generator = change_generator_mode(self.gen_model, self.Gen_copy, self.bn_stat_OnTheFly, standing_statistics, standing_step,
                                               self.prior, self.batch_size, self.z_dim, self.num_classes, self.local_rank, training=True, counter=self.counter)

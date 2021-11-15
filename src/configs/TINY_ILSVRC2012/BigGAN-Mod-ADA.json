@@ -1,10 +1,10 @@
 
 {
   "data_processing":{ 
-    "dataset_name": "tiny_imagenet",
-    "data_path": "./data/TINY_ILSVRC2012",
+    "dataset_name": "foodi-ml",
+    "data_path": "/home/ec2-user/SageMaker/dataset/spanish_subset_pizza/",
     "img_size": 64,
-    "num_classes": 200,
+    "num_classes": 7,
     "batch_size4prcsing": 256,
     "chunk_size": 500,
     "compression": false
@@ -39,7 +39,7 @@
 
     "optimization": {
       "optimizer": "Adam",
-      "batch_size": 1024,
+      "batch_size": 16,
       "accumulation_steps": 1,
       "d_lr": 0.0004,
       "g_lr": 0.0001,
@@ -51,12 +51,12 @@
       "beta1": 0.0,
       "beta2": 0.999,
       "g_steps_per_iter": 1,
-      "d_steps_per_iter": 1,
+      "d_steps_per_iter": 2,
       "total_step": 200000
     },
 
     "loss_function": {
-      "adv_loss": "vanilla",
+      "adv_loss": "hinge",
 
       "contrastive_lambda":"N/A",
       "margin": "N/A", 
