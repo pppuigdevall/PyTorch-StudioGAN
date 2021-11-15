@@ -679,9 +679,10 @@ class make_worker(object):
                                         False, self.local_rank)
 
             generated_images = generator(zs, fake_labels, evaluation=True)
-
-            plot_img_canvas((generated_images.detach().cpu()+1)/2, "./figures/{run_name}/generated_canvas.png".\
-                            format(run_name=self.run_name), ncol, self.logger, logging=True)
+            curr_time = datetime.now()
+            curr_time_str = str(curr_time.day) + "_" + str(curr_time.hour) + "_" + str(curr_time.minute)
+            plot_img_canvas((generated_images.detach().cpu()+1)/2, "./figures/{run_name}/generated_canvas_{curr_time_str}.png".\
+                            format(run_name=self.run_name, curr_time_str=curr_time_str), ncol, self.logger, logging=True)
 
             generator = change_generator_mode(self.gen_model, self.Gen_copy, self.bn_stat_OnTheFly, standing_statistics, standing_step,
                                               self.prior, self.batch_size, self.z_dim, self.num_classes, self.local_rank, training=True, counter=self.counter)

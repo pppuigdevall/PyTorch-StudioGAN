@@ -102,7 +102,7 @@ class LoadDataset(Dataset):
             
         elif self.dataset_name == 'foodi-ml':
             self.data = FoodiMLDataset(dataset_path=self.data_path, train=self.train)
-            
+            self.labels = self.data.labels
         else:
             mode = 'train' if self.train == True else 'valid'
             root = os.path.join(self.data_path, mode)
@@ -122,7 +122,7 @@ class LoadDataset(Dataset):
             img, label = self.data[index] # label in our case will be a caption
             img, label = self.transforms(img), int(label)
         elif self.dataset_name == "foodi-ml":
-            img, embedding, label = self.data[index]
+            img, label = self.data[index]
             img = self.transforms(img)
         else:
             img, label = np.transpose(self.data[index], (1,2,0)), int(self.labels[index])

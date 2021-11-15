@@ -69,6 +69,7 @@ def main():
     parser.add_argument('--print_every', type=int, default=100, help='control log interval')
     parser.add_argument('--save_every', type=int, default=2000, help='control evaluation and save interval')
     parser.add_argument('--eval_type', type=str, default='test', help='[train/valid/test]')
+    parser.add_argument('--step', type=str, default="model=G-current-weights-step=300.pth", help='Generator step to load from the checkpoint folder')
     args = parser.parse_args()
 
     if not args.train and \
@@ -113,7 +114,7 @@ def main():
         mp.spawn(prepare_train_eval, nprocs=gpus_per_node, args=(gpus_per_node, world_size, run_name,
                                                                  train_configs, model_configs, hdf5_path_train))
     else:
-        prepare_train_eval(rank, gpus_per_node, world_size, run_name, train_configs, model_configs, hdf5_path_train=hdf5_path_train)
+        prepare_train_eval(rank, gpus_per_node, world_size, run_name, train_configs, model_configs, hdf5_path_train=hdf5_path_train, step_=args.step)
 
 if __name__ == '__main__':
     main()

@@ -494,6 +494,8 @@ def plot_sim_heatmap(similarity, xlabels, ylabels, run_name, logger, logging=Tru
     if not exists(abspath(directory)):
         os.makedirs(directory)
 
+    curr_time = datetime.now()
+    curr_time_str = str(curr_time.day) + "_" + str(curr_time.hour) + "_" + str(curr_time.minute)
     save_path = join(directory, "sim_heatmap.png")
 
     sns.set(style="white")

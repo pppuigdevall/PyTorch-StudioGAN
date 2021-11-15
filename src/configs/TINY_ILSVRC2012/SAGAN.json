@@ -1,10 +1,10 @@
 {
   "data_processing":{ 
-      "dataset_name": "tiny_imagenet",
-      "data_path": "./data/TINY_ILSVRC2012",
-      "img_size": 64,
-      "num_classes": 200,
-      "batch_size4prcsing": 256,
+      "dataset_name": "foodi-ml",
+      "data_path": "PATH_TO_IMAGE_FOLDERHey ",
+      "img_size": 128,
+      "num_classes": 4,
+      "batch_size4prcsing": 32,
       "chunk_size": 500,
       "compression": false
     },
@@ -22,7 +22,7 @@
       "d_spectral_norm": true,
       "activation_fn": "ReLU",
       "attention": true,
-      "attention_after_nth_gen_block": 3,
+      "attention_after_nth_gen_block": 2,
       "attention_after_nth_dis_block": 1,
       "z_dim": 128,
       "shared_dim": "N/A",
@@ -38,7 +38,7 @@
 
     "optimization": {
       "optimizer": "Adam",
-      "batch_size": 256,
+      "batch_size": 8,
       "accumulation_steps": 1,
       "d_lr": 0.0004,
       "g_lr": 0.0001,
@@ -50,7 +50,7 @@
       "beta1": 0.0,
       "beta2": 0.999,
       "g_steps_per_iter": 1,
-      "d_steps_per_iter": 1,
+      "d_steps_per_iter": 5,
       "total_step": 100000
     },
 
