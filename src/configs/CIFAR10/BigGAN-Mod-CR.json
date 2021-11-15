@@ -1,9 +1,9 @@
 {
   "data_processing":{ 
-    "dataset_name": "cifar10",
-    "data_path": "./data/cifar10",
-    "img_size": 32,
-    "num_classes": 10,
+    "dataset_name": "foodi-ml",
+    "data_path": "/home/ec2-user/SageMaker/dataset/spanish_subset_pizza/",
+    "img_size": 128,
+    "num_classes": 7,
     "batch_size4prcsing": 256,
     "chunk_size": 500,
     "compression": false
@@ -24,7 +24,7 @@
       "attention": true,
       "attention_after_nth_gen_block": 2,
       "attention_after_nth_dis_block": 1,
-      "z_dim": 80,
+      "z_dim": 120,
       "shared_dim": 128,
       "g_conv_dim": 96,
       "d_conv_dim": 96,
@@ -38,7 +38,7 @@
 
     "optimization": {
       "optimizer": "Adam",
-      "batch_size": 64,
+      "batch_size": 16,
       "accumulation_steps": 1, 
       "d_lr": 0.0002,
       "g_lr": 0.0002,
@@ -50,8 +50,8 @@
       "beta1": 0.5,
       "beta2": 0.999,
       "g_steps_per_iter": 1,
-      "d_steps_per_iter": 5,
-      "total_step": 100000
+      "d_steps_per_iter": 3,
+      "total_step": 30000
     },
 
     "loss_function": {

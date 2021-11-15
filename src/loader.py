@@ -31,7 +31,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 
 
-def prepare_train_eval(local_rank, gpus_per_node, world_size, run_name, train_configs, model_configs, hdf5_path_train):
+def prepare_train_eval(local_rank, gpus_per_node, world_size, run_name, train_configs, model_configs, hdf5_path_train, step_ppp):
     cfgs = dict2clsattr(train_configs, model_configs)
     prev_ada_p, step, best_step, best_fid, best_fid_checkpoint_path, mu, sigma, inception_model = None, 0, 0, None, None, None, None, None
 
@@ -138,7 +138,8 @@ def prepare_train_eval(local_rank, gpus_per_node, world_size, run_name, train_co
         if not exists(abspath(cfgs.checkpoint_folder)):
             raise NotADirectoryError
         checkpoint_dir = make_checkpoint_dir(cfgs.checkpoint_folder, run_name)
-        g_checkpoint_dir = glob.glob(join(checkpoint_dir,"model=G-{when}-weights-step*.pth".format(when=when)))[0]
+        #g_checkpoint_dir = glob.glob(join(checkpoint_dir,"model=G-{when}-weights-step*.pth".format(when=when)))[0]
+        g_checkpoint_dir = join(checkpoint_dir, step_ppp)
         d_checkpoint_dir = glob.glob(join(checkpoint_dir,"model=D-{when}-weights-step*.pth".format(when=when)))[0]
         Gen, G_optimizer, trained_seed, run_name, step, prev_ada_p = load_checkpoint(Gen, G_optimizer, g_checkpoint_dir)
         Dis, D_optimizer, trained_seed, run_name, step, prev_ada_p, best_step, best_fid, best_fid_checkpoint_path =\
@@ -236,7 +237,7 @@ def prepare_train_eval(local_rank, gpus_per_node, world_size, run_name, train_co
         mu=mu,
         sigma=sigma,
         best_fid=best_fid,
-        best_fid_checkpoint_path=best_fid_checkpoint_path,
+        best_fid_checkpoint_path=best_fid_checkpoint_path
     )
 
     if cfgs.train_configs['train']:
