@@ -1,7 +1,11 @@
 {
   "data_processing":{ 
     "dataset_name": "foodi-ml",
+<<<<<<< HEAD
     "data_path": "PATH_TO_IMAGE_FOLDER",
+=======
+    "data_path": "/home/ec2-user/SageMaker/dataset/spanish_subset_pizza/",
+>>>>>>> ec4af51bd2608d112573a8fcccdd133e6ed2bb2f
     "img_size": 128,
     "num_classes": 7,
     "batch_size4prcsing": 256,
